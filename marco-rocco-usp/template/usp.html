@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Marco Rocco USP</title>
+<style>
+  @font-face { font-family: 'Poppins'; font-weight: 500; src: url('../fonts/poppins-latin-500-normal.woff2') format('woff2'); }
+  @font-face { font-family: 'Poppins'; font-weight: 600; src: url('../fonts/poppins-latin-600-normal.woff2') format('woff2'); }
+  @font-face { font-family: 'Poppins'; font-weight: 700; src: url('../fonts/poppins-latin-700-normal.woff2') format('woff2'); }
+  @font-face { font-family: 'Poppins'; font-weight: 800; src: url('../fonts/poppins-latin-800-normal.woff2') format('woff2'); }
+
+  :root {
+    --maroon: #531113;        /* logo colour */
+    --maroon-deep: #3B0B0D;
+    --ink: #2E1C1C;
+    --ink-soft: #5A4442;
+    --gold: #F2B33D;
+    --card: #FFFFFF;
+    --bg-top: #E7E1DA;        /* overridden per model */
+    --bg-bottom: #C3BBB1;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #8a8a8a; font-family: 'Poppins', sans-serif; padding: 24px; }
+  #toolbar { margin-bottom: 16px; font: 600 15px 'Poppins', sans-serif; color: #fff; }
+  #toolbar select { font: inherit; padding: 4px 8px; }
+
+  #canvas {
+    position: relative; width: 1080px; height: 1080px; overflow: hidden;
+    background:
+      radial-gradient(620px 420px at 34% 52%, rgba(255,255,255,.75), rgba(255,255,255,0) 70%),
+      linear-gradient(170deg, var(--bg-top) 0%, var(--bg-bottom) 100%);
+    color: var(--ink);
+  }
+
+  /* ---------- header ---------- */
+  .logo { position: absolute; left: 48px; top: 48px; width: 156px; height: 156px; box-shadow: 0 10px 24px rgba(59,11,13,.22); }
+  .logo img { display: block; width: 100%; height: 100%; }
+  .head { position: absolute; left: 236px; right: 48px; top: 44px; height: 168px; display: flex; flex-direction: column; justify-content: center; }
+  .eyebrow { display: flex; align-items: center; gap: 14px; font-weight: 700; font-size: 22px; letter-spacing: .16em; color: var(--maroon); text-transform: uppercase; }
+  .eyebrow .code { background: var(--maroon); color: #fff; letter-spacing: .06em; padding: 4px 14px 3px; border-radius: 999px; }
+  .title { font-weight: 800; font-size: 66px; line-height: 1.02; color: var(--maroon); text-transform: uppercase; letter-spacing: -.01em; margin-top: 8px; }
+  .subtitle { font-weight: 600; font-size: 29px; color: var(--ink-soft); margin-top: 8px; }
+
+  /* ---------- hero ---------- */
+  .product { position: absolute; left: 40px; top: 238px; width: 640px; height: 486px; display: flex; align-items: center; justify-content: center; }
+  .product img { max-width: 100%; max-height: 100%; object-fit: contain; filter: drop-shadow(0 22px 22px rgba(59,11,13,.20)) drop-shadow(0 4px 6px rgba(59,11,13,.12)); }
+  .floor { position: absolute; left: 110px; top: 664px; width: 500px; height: 54px; border-radius: 50%; background: radial-gradient(closest-side, rgba(59,11,13,.16), rgba(59,11,13,0)); }
+
+  /* round gold badge; sits where the main image's badge was (photos/meta.js), else bottom-right of the product */
+  .sticker { position: absolute; width: 150px; height: 150px; border-radius: 50%; background: var(--gold); color: var(--maroon-deep);
+    display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
+    box-shadow: 0 10px 22px rgba(59,11,13,.25); border: 5px solid #fff; z-index: 2; }
+  .sticker small { font-weight: 700; font-size: 15px; letter-spacing: .1em; line-height: 1.1; }
+  .sticker b { font-weight: 800; font-size: 34px; letter-spacing: .01em; line-height: 1.05; }
+
+  .colours { position: absolute; left: 60px; top: 670px; display: flex; align-items: center; gap: 10px; background: rgba(255,255,255,.88); border-radius: 999px; padding: 9px 22px 9px 12px;
+    font-weight: 700; font-size: 22px; color: var(--maroon); box-shadow: 0 6px 16px rgba(59,11,13,.12); }
+  .colours .ic { width: 38px; height: 38px; border-radius: 50%; background: var(--maroon); color: #fff; display: grid; place-items: center; }
+  .colours .ic svg { width: 22px; height: 22px; }
+
+  .callouts { position: absolute; left: 690px; right: 48px; top: 250px; height: 470px; display: flex; flex-direction: column; justify-content: center; gap: 18px; }
+  .callout { display: flex; align-items: center; gap: 16px; background: var(--card); border-radius: 24px; padding: 18px 20px 18px 16px; box-shadow: 0 10px 26px rgba(59,11,13,.13); min-height: 124px; }
+  .callout .ic { flex: 0 0 68px; height: 68px; border-radius: 50%; background: var(--maroon); color: #fff; display: grid; place-items: center; }
+  .callout .ic svg { width: 36px; height: 36px; }
+  .callout p { font-weight: 700; font-size: 27px; line-height: 1.18; color: var(--ink); }
+
+  /* no product photo yet: callouts spread across the hero */
+  #canvas.no-photo .product, #canvas.no-photo .floor { display: none; }
+  #canvas.no-photo .callouts { left: 200px; right: 200px; }
+
+  /* ---------- core benefits band ---------- */
+  .band { position: absolute; left: 32px; right: 32px; bottom: 32px; height: 296px; border-radius: 36px; background: linear-gradient(160deg, var(--maroon) 0%, var(--maroon-deep) 100%);
+    padding: 26px 36px 30px; color: #fff; box-shadow: 0 -4px 30px rgba(59,11,13,.18); }
+  .band h3 { font-weight: 700; font-size: 21px; letter-spacing: .2em; text-transform: uppercase; color: var(--gold); text-align: center; }
+  .grid { display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(2, 1fr); gap: 14px 22px; height: 210px; margin-top: 16px; }
+  .core { display: flex; align-items: center; gap: 16px; }
+  .core .ic { flex: 0 0 72px; height: 72px; border-radius: 50%; background: rgba(255,255,255,.12); border: 2px solid rgba(255,255,255,.55); display: grid; place-items: center; }
+  .core .ic svg { width: 38px; height: 38px; }
+  .core span { font-weight: 700; font-size: 28px; line-height: 1.12; }
+</style>
+</head>
+<body>
+<div id="toolbar">Model: <select id="pick"></select></div>
+
+<div id="canvas">
+  <div class="logo"><img src="../assets/logo.svg" alt="Marco Rocco"></div>
+  <div class="head">
+    <div class="eyebrow"><span class="code" id="code"></span><span>Why you'll love it</span></div>
+    <h1 class="title" id="title"></h1>
+    <p class="subtitle" id="subtitle"></p>
+  </div>
+
+  <div class="floor"></div>
+  <div class="product"><img id="photo" alt=""></div>
+  <div class="sticker" id="sticker"></div>
+  <div class="colours" id="colours"><span class="ic" data-icon="palette"></span><span id="colours-text"></span></div>
+
+  <div class="callouts" id="callouts"></div>
+
+  <div class="band">
+    <h3>Everyday comfort in every pair</h3>
+    <div class="grid" id="core"></div>
+  </div>
+</div>
+
+<script src="../assets/icons.js"></script>
+<script src="../data/models.js"></script>
+<script src="../photos/meta.js" onerror="window.PHOTO_META = {}"></script>
+<script>
+  const icon = name => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${ICONS[name] || ''}</svg>`;
+  const esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;');
+
+  // Shrink the headline until it fits on at most two lines.
+  function fitTitle(el) {
+    let size = 66;
+    el.style.fontSize = size + 'px';
+    while (el.scrollHeight > size * 1.02 * 2 + 4 && size > 44) { size -= 2; el.style.fontSize = size + 'px'; }
+  }
+
+  function loadPhoto(id) {
+    const img = document.getElementById('photo');
+    const exts = ['png', 'webp', 'jpg', 'jpeg'];
+    return new Promise(resolve => {
+      const tryNext = i => {
+        if (i >= exts.length) { document.getElementById('canvas').classList.add('no-photo'); return resolve(false); }
+        img.onload = () => resolve(true);
+        img.onerror = () => tryNext(i + 1);
+        img.src = `../photos/${id}.${exts[i]}`;
+      };
+      document.getElementById('canvas').classList.remove('no-photo');
+      tryNext(0);
+    });
+  }
+
+  // Put the sticker over the spot the main image's badge covered (so nothing looks cut), else bottom-right.
+  function placeSticker(id, hasPhoto) {
+    const st = document.getElementById('sticker');
+    const canvas = document.getElementById('canvas').getBoundingClientRect();
+    let size = 196, cx, cy;
+    const patch = hasPhoto && (window.PHOTO_META || {})[id] && PHOTO_META[id].patch;
+    if (hasPhoto) {
+      const r = document.getElementById('photo').getBoundingClientRect();
+      if (patch) {
+        size = Math.max(196, Math.round(patch.r * r.width * 2 + 18));
+        cx = r.left - canvas.left + patch.x * r.width;
+        cy = r.top - canvas.top + patch.y * r.height;
+      } else {
+        cx = r.right - canvas.left - 40;
+        cy = r.bottom - canvas.top - 40;
+      }
+    } else {
+      cx = 160; cy = 330;
+    }
+    cx = Math.min(Math.max(cx, size / 2 + 24), 690 - size / 2);
+    cy = Math.min(Math.max(cy, 250 + size / 2), 735 - size / 2);
+    Object.assign(st.style, { width: size + 'px', height: size + 'px', left: (cx - size / 2) + 'px', top: (cy - size / 2) + 'px' });
+    const k = Math.min(size / 150, 1.45);
+    st.querySelectorAll('b').forEach(b => b.style.fontSize = Math.round(34 * k) + 'px');
+    st.querySelectorAll('small').forEach(b => b.style.fontSize = Math.round(15 * k) + 'px');
+  }
+
+  window.render = async function (id) {
+    const m = MODELS.find(x => x.id === id) || MODELS[0];
+    const c = document.getElementById('canvas');
+    c.style.setProperty('--bg-top', m.bg[0]);
+    c.style.setProperty('--bg-bottom', m.bg[1]);
+    document.getElementById('code').textContent = m.id;
+    document.getElementById('title').textContent = m.title;
+    document.getElementById('subtitle').textContent = m.subtitle;
+    const [top, big, bottom] = m.sticker || ['', '', ''];
+    document.getElementById('sticker').innerHTML =
+      (top ? `<small>${esc(top)}</small>` : '') + `<b>${esc(big)}</b>` + (bottom ? `<small>${esc(bottom)}</small>` : '');
+    document.getElementById('sticker').style.display = big ? '' : 'none';
+    const pill = [m.unisex && 'Unisex', m.colours && 'Multiple colours'].filter(Boolean).join(' · ');
+    document.getElementById('colours-text').textContent = pill;
+    document.getElementById('colours').style.display = pill ? '' : 'none';
+    document.getElementById('callouts').innerHTML = m.highlights.map(h =>
+      `<div class="callout"><span class="ic">${icon(h.icon)}</span><p>${esc(h.text)}</p></div>`).join('');
+    document.getElementById('core').innerHTML = m.core.map(k =>
+      `<div class="core"><span class="ic">${icon(CORE[k].icon)}</span><span>${esc(CORE[k].label)}</span></div>`).join('');
+    document.querySelectorAll('[data-icon]').forEach(el => { el.innerHTML = icon(el.dataset.icon); });
+    await document.fonts.ready;
+    fitTitle(document.getElementById('title'));
+    const hasPhoto = await loadPhoto(m.id);
+    placeSticker(m.id, hasPhoto);
+    return m.id;
+  };
+
+  const pick = document.getElementById('pick');
+  pick.innerHTML = MODELS.map(m => `<option>${m.id}</option>`).join('');
+  pick.onchange = () => { history.replaceState(null, '', '?model=' + pick.value); render(pick.value); };
+  const start = new URLSearchParams(location.search).get('model') || MODELS[0].id;
+  pick.value = start;
+  window.ready = render(start);
+</script>
+</body>
+</html>
