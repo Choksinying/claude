@@ -1,23 +1,185 @@
 {
   "note": "Nano Banana Pro (Higgsfield) USP images. Layout A = hero on podiums + maroon band of 4 USP tiles (template job 6cc37de2-6557-48e2-a297-8380bdb21788). Layout B = hero + 4 gold zoom circles (template job 6fe8fa9d-09de-482c-ab49-1d37e1bbd389). References per job: [real product photo, layout template, logo 69954803-b951-43ba-8b10-e43b7a4b61cb]. 2048x2048, resize to 1080x1080.",
   "models": {
-    "MR8012": {"usps": ["WAVE PATTERN DESIGN", "ANTI-SLIP SOLE", "SOFT & CUSHIONED", "WATERPROOF & EASY TO CLEAN"], "A": "af0092d5-c53e-4653-974e-83e16e2b25f7", "B": "7a8a09f5-0c06-470a-bbf5-cb844455b6a0"},
-    "MR8013": {"usps": ["BOOST HEIGHT 4CM+", "ANTI-SLIP SOLE", "SOFT & CUSHIONED", "WATERPROOF & EASY TO CLEAN"], "A": "f5dcaa95-55e5-4506-8242-0a5bab2dac3d", "B": "790c08aa-8dba-4db0-8484-fc68534a4fa2"},
-    "MR8015": {"usps": ["STYLISH STRIPED PATTERN", "EASY SLIP-ON", "LIGHTWEIGHT", "WATERPROOF & EASY TO CLEAN"], "A": "1a868a72-5347-4aa3-948b-f91a50062b4f", "B": "b3374640-bca9-448f-946b-c9f64ec066ce"},
-    "MR8017": {"usps": ["4CM THICK SOLE", "EASY SLIP-ON", "SOFT & CUSHIONED", "WATERPROOF & EASY TO CLEAN"], "A": "973976a1-3c35-450f-83d1-2fa697757eba", "B": "2ff1187c-abeb-4d70-bdeb-e54eef394047"},
-    "MR8018": {"usps": ["4CM THICK SOLE", "NON-SLIP OUTSOLE", "EASY SLIDE-IN", "SOFT & CUSHIONED"], "A": "6e21b341-116a-4faa-88eb-6e116bb413d1", "B": "d484e140-37b0-47ec-9c29-5bc77baf93e0"},
-    "MR8021": {"usps": ["WOVEN-STYLE TEXTURE", "SOFT & CUSHIONED", "LIGHTWEIGHT", "WATERPROOF & EASY TO CLEAN"], "A": "90d3b60c-35c3-4f6f-a230-9b4997c373df", "B": "0662e03d-a4b2-4118-98b9-a917df2ff24d"},
-    "MR8022": {"usps": ["5CM THICK SOLE", "CRISS-CROSS STRAPS", "SQUARE BUCKLE DETAIL", "WATERPROOF & EASY TO CLEAN"], "A": "e552bef9-5e88-4f76-9311-37bb2c616a8b", "B": "f6be413a-67ad-4c01-87b4-fe10a5cbc493"},
-    "MR8024": {"usps": ["WATERPROOF BOOT", "RAIN-READY STYLE", "MORE COVERAGE", "THICK SOLE"], "A": "2e273f00-6cc1-4f37-8025-a709c03fb604", "B": "c5c36e0b-8602-435c-8dc7-06d55a18e273"},
-    "MR8026": {"usps": ["UP TO 7.5CM SOLE", "CUSTOMIZABLE CHARMS", "CHUNKY BUT LIGHTWEIGHT", "WATERPROOF & EASY TO CLEAN"], "A": "6cc37de2-6557-48e2-a297-8380bdb21788", "B": "6fe8fa9d-09de-482c-ab49-1d37e1bbd389"},
-    "MR8027": {"usps": ["5.5CM THICK SOLE", "STYLISH WAVE PATTERN", "CUSTOMIZABLE CHARM", "WATERPROOF & EASY TO CLEAN"], "A": "1a0f8dd8-6628-4e5b-8783-e608dcaa1892", "B": "9e77273d-59aa-493b-b77b-0f952054af56"},
-    "MR8028": {"usps": ["2-IN-1 DESIGN", "HEEL-STRAP STYLE", "EASY SLIP-ON", "WATERPROOF & EASY TO CLEAN"], "A": "eec1c3e6-acb7-435c-9117-06d57ff4e740", "B": "eaa67339-6bdb-476d-a61f-70205f5caefa"},
-    "MR8029": {"usps": ["3.5CM THICK SOLE", "EASY SLIP-ON", "OUTDOOR STYLING", "WATERPROOF & EASY TO CLEAN"], "A": "d9c00636-1981-4bde-abf0-eb4a95dfba82", "B": "e99fbd94-0a1d-47d5-9430-847d48356079"},
-    "MR8030": {"usps": ["DURIAN PATTERN", "NON-SLIP SOLE", "SOFT & CUSHIONED", "LIGHTWEIGHT"], "A": "607b8f77-8526-4ed2-a58a-6d0725db9890", "B": "e5bc57a4-a888-4085-bf53-e00a3d598d98"},
-    "MR8031": {"usps": ["NON-SLIP & BREATHABLE", "INDOOR & OUTDOOR", "SOFT & CUSHIONED", "WATERPROOF & EASY TO CLEAN"], "A": "90bf9dce-f011-4fbf-bc9a-5903ee6f8e3b", "B": "f23cbd7d-8671-4833-b6ce-eb1dbc619a4c"},
-    "MR8032": {"usps": ["TRIPLE STRAPS", "EASY SLIP-ON", "NON-SLIP SOLE", "WATERPROOF & EASY TO CLEAN"], "A": "e59f958e-95b9-4064-a1ce-3a5a4299f053", "B": "af58f75f-8e96-4b69-9566-41c790270e2c"},
-    "MR8033": {"usps": ["DOUBLE STRAPS", "EASY SLIP-ON", "NON-SLIP SOLE", "WATERPROOF & EASY TO CLEAN"], "A": "c242e466-70f3-4ae7-9308-aa1c591f77ae", "B": "5f53fa3a-a135-4cb0-9a22-e406ac7e2e84"},
-    "MR8034": {"usps": ["KOREAN MINIMALIST DESIGN", "EASY OUTFIT PAIRING", "NON-SLIP SOLE", "SOFT & CUSHIONED"], "A": "027aedda-4e60-4c22-a973-c283cff82068", "B": "0b890c9f-7b9f-43e3-be78-c7f0355f24b9"},
-    "MR8035": {"usps": ["4CM THICK SOLE", "MODERN MASCULINE LOOK", "NON-SLIP SOLE", "WATERPROOF & EASY TO CLEAN"], "A": "0049f785-4d38-4a37-b270-4211f464b7af", "B": "ab12b710-47ad-4b6a-957d-9bdd2913dc9a"}
+    "MR8012": {
+      "usps": [
+        "WAVE PATTERN DESIGN",
+        "ANTI-SLIP SOLE",
+        "SOFT & CUSHIONED",
+        "WATERPROOF & EASY TO CLEAN"
+      ],
+      "A": "af0092d5-c53e-4653-974e-83e16e2b25f7",
+      "B": "7a8a09f5-0c06-470a-bbf5-cb844455b6a0"
+    },
+    "MR8013": {
+      "usps": [
+        "BOOST HEIGHT 4CM+",
+        "ANTI-SLIP SOLE",
+        "SOFT & CUSHIONED",
+        "WATERPROOF & EASY TO CLEAN"
+      ],
+      "A": "f5dcaa95-55e5-4506-8242-0a5bab2dac3d",
+      "B": "790c08aa-8dba-4db0-8484-fc68534a4fa2"
+    },
+    "MR8015": {
+      "usps": [
+        "STYLISH STRIPED PATTERN",
+        "EASY SLIP-ON",
+        "LIGHTWEIGHT",
+        "WATERPROOF & EASY TO CLEAN"
+      ],
+      "A": "1a868a72-5347-4aa3-948b-f91a50062b4f",
+      "B": "b3374640-bca9-448f-946b-c9f64ec066ce"
+    },
+    "MR8017": {
+      "usps": [
+        "4CM THICK SOLE",
+        "EASY SLIP-ON",
+        "SOFT & CUSHIONED",
+        "WATERPROOF & EASY TO CLEAN"
+      ],
+      "A": "973976a1-3c35-450f-83d1-2fa697757eba",
+      "B": "2ff1187c-abeb-4d70-bdeb-e54eef394047"
+    },
+    "MR8018": {
+      "usps": [
+        "4CM THICK SOLE",
+        "NON-SLIP OUTSOLE",
+        "EASY SLIDE-IN",
+        "SOFT & CUSHIONED"
+      ],
+      "A": "6e21b341-116a-4faa-88eb-6e116bb413d1",
+      "B": "d484e140-37b0-47ec-9c29-5bc77baf93e0"
+    },
+    "MR8021": {
+      "usps": [
+        "WOVEN-STYLE TEXTURE",
+        "SOFT & CUSHIONED",
+        "LIGHTWEIGHT",
+        "WATERPROOF & EASY TO CLEAN"
+      ],
+      "A": "90d3b60c-35c3-4f6f-a230-9b4997c373df",
+      "B": "0662e03d-a4b2-4118-98b9-a917df2ff24d"
+    },
+    "MR8022": {
+      "usps": [
+        "5CM THICK SOLE",
+        "CRISS-CROSS STRAPS",
+        "SQUARE BUCKLE DETAIL",
+        "WATERPROOF & EASY TO CLEAN"
+      ],
+      "A": "7f0a2eaf-794f-43c2-b2e8-ba860e03dfba",
+      "B": "f6be413a-67ad-4c01-87b4-fe10a5cbc493"
+    },
+    "MR8024": {
+      "usps": [
+        "WATERPROOF BOOT",
+        "RAIN-READY STYLE",
+        "MORE COVERAGE",
+        "THICK SOLE"
+      ],
+      "A": "2e273f00-6cc1-4f37-8025-a709c03fb604",
+      "B": "c5c36e0b-8602-435c-8dc7-06d55a18e273"
+    },
+    "MR8026": {
+      "usps": [
+        "UP TO 7.5CM SOLE",
+        "CUSTOMIZABLE CHARMS",
+        "CHUNKY BUT LIGHTWEIGHT",
+        "WATERPROOF & EASY TO CLEAN"
+      ],
+      "A": "6cc37de2-6557-48e2-a297-8380bdb21788",
+      "B": "6fe8fa9d-09de-482c-ab49-1d37e1bbd389"
+    },
+    "MR8027": {
+      "usps": [
+        "5.5CM THICK SOLE",
+        "STYLISH WAVE PATTERN",
+        "CUSTOMIZABLE CHARM",
+        "WATERPROOF & EASY TO CLEAN"
+      ],
+      "A": "1a0f8dd8-6628-4e5b-8783-e608dcaa1892",
+      "B": "9e77273d-59aa-493b-b77b-0f952054af56"
+    },
+    "MR8028": {
+      "usps": [
+        "2-IN-1 DESIGN",
+        "HEEL-STRAP STYLE",
+        "EASY SLIP-ON",
+        "WATERPROOF & EASY TO CLEAN"
+      ],
+      "A": "eec1c3e6-acb7-435c-9117-06d57ff4e740",
+      "B": "eaa67339-6bdb-476d-a61f-70205f5caefa"
+    },
+    "MR8029": {
+      "usps": [
+        "3.5CM THICK SOLE",
+        "EASY SLIP-ON",
+        "OUTDOOR STYLING",
+        "WATERPROOF & EASY TO CLEAN"
+      ],
+      "A": "d9c00636-1981-4bde-abf0-eb4a95dfba82",
+      "B": "e99fbd94-0a1d-47d5-9430-847d48356079"
+    },
+    "MR8030": {
+      "usps": [
+        "DURIAN PATTERN",
+        "NON-SLIP SOLE",
+        "SOFT & CUSHIONED",
+        "LIGHTWEIGHT"
+      ],
+      "A": "607b8f77-8526-4ed2-a58a-6d0725db9890",
+      "B": "e5bc57a4-a888-4085-bf53-e00a3d598d98"
+    },
+    "MR8031": {
+      "usps": [
+        "NON-SLIP & BREATHABLE",
+        "INDOOR & OUTDOOR",
+        "SOFT & CUSHIONED",
+        "WATERPROOF & EASY TO CLEAN"
+      ],
+      "A": "90bf9dce-f011-4fbf-bc9a-5903ee6f8e3b",
+      "B": "f23cbd7d-8671-4833-b6ce-eb1dbc619a4c"
+    },
+    "MR8032": {
+      "usps": [
+        "TRIPLE STRAPS",
+        "EASY SLIP-ON",
+        "NON-SLIP SOLE",
+        "WATERPROOF & EASY TO CLEAN"
+      ],
+      "A": "e59f958e-95b9-4064-a1ce-3a5a4299f053",
+      "B": "af58f75f-8e96-4b69-9566-41c790270e2c"
+    },
+    "MR8033": {
+      "usps": [
+        "DOUBLE STRAPS",
+        "EASY SLIP-ON",
+        "NON-SLIP SOLE",
+        "WATERPROOF & EASY TO CLEAN"
+      ],
+      "A": "c242e466-70f3-4ae7-9308-aa1c591f77ae",
+      "B": "5f53fa3a-a135-4cb0-9a22-e406ac7e2e84"
+    },
+    "MR8034": {
+      "usps": [
+        "KOREAN MINIMALIST DESIGN",
+        "EASY OUTFIT PAIRING",
+        "NON-SLIP SOLE",
+        "SOFT & CUSHIONED"
+      ],
+      "A": "027aedda-4e60-4c22-a973-c283cff82068",
+      "B": "0b890c9f-7b9f-43e3-be78-c7f0355f24b9"
+    },
+    "MR8035": {
+      "usps": [
+        "4CM THICK SOLE",
+        "MODERN MASCULINE LOOK",
+        "NON-SLIP SOLE",
+        "WATERPROOF & EASY TO CLEAN"
+      ],
+      "A": "0049f785-4d38-4a37-b270-4211f464b7af",
+      "B": "ab12b710-47ad-4b6a-957d-9bdd2913dc9a"
+    }
   }
 }

@@ -1,0 +1,45 @@
+# Downloads the Nano Banana Pro USP images listed in marco-rocco-usp/nano-banana/images.json,
+# resizes them to 1080x1080 and commits them as marco-rocco-usp/nano-banana/final/<SKU>_USP.jpg.
+name: Fetch USP images
+
+on:
+  push:
+    paths:
+      - marco-rocco-usp/nano-banana/images.json
+      - .github/workflows/fetch-usp-images.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Download and resize to 1080x1080
+        run: |
+          pip install --quiet pillow==11.0.0
+          python - <<'PY'
+          import io, json, os, urllib.request
+          from PIL import Image
+          src = "marco-rocco-usp/nano-banana/images.json"
+          out = "marco-rocco-usp/nano-banana/final"
+          os.makedirs(out, exist_ok=True)
+          for name, url in json.load(open(src)).items():
+              req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
+              data = urllib.request.urlopen(req, timeout=120).read()
+              img = Image.open(io.BytesIO(data)).convert("RGB").resize((1080, 1080), Image.LANCZOS)
+              img.save(os.path.join(out, name), "JPEG", quality=92, optimize=True, progressive=True)
+              print(name, "ok")
+          PY
+      - name: Commit images
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898299+github-actions[bot]@users.noreply.github.com"
+          git add marco-rocco-usp/nano-banana/final
+          git diff --cached --quiet || git commit -m "Add 1080x1080 USP images from Nano Banana Pro"
+          git push
