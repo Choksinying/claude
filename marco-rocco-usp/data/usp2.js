@@ -54,9 +54,9 @@ window.MODELS2 = [
     { label: 'Waterproof & easy to clean', view: [.45, .55, .30], ...drops },
   ] },
   { id: 'MR8022', gender: 'female', usps: [
-    { label: '5cm thick sole', view: [.84, .72, .30], bottom: .9, fx: [{ measure: { x: .9, h: .4, text: '5CM', tagLeft: true } }] },
+    { label: '5cm thick sole', view: [.80, .60, .50], fx: [{ measure: { x: .92, y1: .2, y2: .66, text: '5CM', tagLeft: true } }] },
     { label: 'Criss-cross straps', view: [.32, .35, .30] },
-    { label: 'Gold logo buckle', view: [.60, .44, .22] },
+    { label: 'Gold logo buckle', view: [.64, .44, .40] },
     { label: 'Waterproof & easy to clean', view: [.58, .62, .30], ...drops },
   ] },
   { id: 'MR8024', gender: 'female', usps: [

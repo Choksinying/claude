@@ -30,10 +30,9 @@
   #canvas > * { position: absolute; }
 
   .word { left: 0; right: 0; text-align: center; font-weight: 800; letter-spacing: .02em; color: rgba(255,255,255,.55); line-height: 1; }
-  /* outline logo, centred at the top: brown for unisex / male, white for female */
+  /* outline logo in the listing images' brown, centred at the top */
   .logo { left: 50%; transform: translateX(-50%); }
   .logo img { display: block; width: 100%; height: auto; }
-  .female .logo img { filter: drop-shadow(0 2px 5px rgba(90,30,25,.35)); }
   .code { background: var(--gold); color: var(--maroon-deep); font-weight: 800; border-radius: 999px; letter-spacing: .03em;
     box-shadow: 0 6px 16px rgba(56,10,12,.18), inset 0 1px 0 rgba(255,255,255,.6); white-space: nowrap; }
 
@@ -254,7 +253,7 @@
     const hb = a.hero || [100, 262, 880, 383];
     const r = hero(m, ...hb);
     h += `<div class="shadow" style="left:${r.x + r.w * .08}px;top:${r.y + r.h - 34}px;width:${r.w * .84}px;height:58px"></div>` + r.html;
-    h += `<div class="logo"><img src="../assets/logo_${m.gender === 'female' ? 'white' : 'brown'}.png" alt="Marco Rocco"></div><div class="code">${m.id}</div><div class="band"></div>`;
+    h += `<div class="logo"><img src="../assets/logo_brown.png" alt="Marco Rocco"></div><div class="code">${m.id}</div><div class="band"></div>`;
     m.usps.forEach((u, i) => {
       const x = 51 + i * 252;
       h += `<div class="vis" style="left:${x}px">${visual(m, u, 222)}</div>`;
@@ -287,7 +286,7 @@
       h += `<div class="vis" style="left:${cx - 118}px;top:${cy - 118}px">${visual(m, v, 236, true)}</div>`;
       h += `<div class="label" style="left:${cx}px;top:${cy + 140}px">${esc(u.label)}</div>`;
     });
-    h += `<div class="logo"><img src="../assets/logo_${m.gender === 'female' ? 'white' : 'brown'}.png" alt="Marco Rocco"></div><div class="code">${m.id}</div>`;
+    h += `<div class="logo"><img src="../assets/logo_brown.png" alt="Marco Rocco"></div><div class="code">${m.id}</div>`;
     return h;
   }
 
