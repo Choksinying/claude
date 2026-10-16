@@ -1,0 +1,48 @@
+# Downloads the shared Google Drive images listed in marco-rocco-usp/refs/drive.json
+# ({"file name": "Drive file id"}) into marco-rocco-usp/refs/ and commits them.
+name: Fetch Drive images
+
+on:
+  push:
+    paths:
+      - marco-rocco-usp/refs/drive.json
+      - .github/workflows/fetch-drive-images.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download
+        run: |
+          python3 - <<'PY'
+          import json, os, urllib.request
+          out = "marco-rocco-usp/refs"
+          for name, fid in json.load(open(f"{out}/drive.json")).items():
+              path = os.path.join(out, name)
+              if os.path.exists(path):
+                  continue
+              url = f"https://drive.usercontent.google.com/download?id={fid}&export=download"
+              req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
+              try:
+                  data = urllib.request.urlopen(req, timeout=120).read()
+              except Exception as e:
+                  print(name, "FAILED", e)
+                  continue
+              if data[:3] != b"\xff\xd8\xff" and data[:4] != b"\x89PNG":
+                  print(name, "not an image (file not shared publicly?)")
+                  continue
+              open(path, "wb").write(data)
+              print(name, "ok", len(data))
+          PY
+      - name: Commit images
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898299+github-actions[bot]@users.noreply.github.com"
+          git add marco-rocco-usp/refs
+          git diff --cached --quiet || git commit -m "Add reference images from Google Drive"
+          git push
