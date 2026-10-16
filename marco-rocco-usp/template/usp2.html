@@ -149,6 +149,15 @@
     const src = `../${m.photo}`;
     let html = '';
     let box;
+    if (v.scene) {
+      // photo scene made from the real product photo (hand pressing, natural water, sole on a wet floor...):
+      // scenes/tiles/<name>.jpg, square; crop [cx, cy, f] = centre and window width as fractions of it
+      const [cx, cy, f] = v.crop || [.5, .5, 1];
+      const iw = S / f;
+      html += `<img src="../scenes/tiles/${v.scene}.jpg" style="left:${S / 2 - cx * iw}px;top:${S / 2 - cy * iw}px;width:${iw}px;height:${iw}px">`;
+      if (v.icon) html += `<div class="badge">${icon(v.icon, 2.2)}</div>`;
+      return html;
+    }
     if (v.float) {
       // whole product, smaller, floating above a feather (lightweight)
       const k = Math.min(S * .8 / W, S * .48 / H);

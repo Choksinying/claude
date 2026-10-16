@@ -38,6 +38,18 @@ Each USP visual is a zoom into the real photo (`view: [cx, cy, f]`) with optiona
 - charms;
 - a floating product above a feather (lightweight).
 
+Some tiles are photo scenes instead (`scene: '<NAME>'`): MR8012 (all 4), MR8030 (all 4), MR8035 (non-slip,
+waterproof) and MR8022 (waterproof). These show a hand pressing the footbed, natural running water, a durian, a
+feather, or the outsole on a wet floor.
+
+1. `tools/scene_inputs.py` crops the real photo for each scene (`scenes/specs.json`) into `scenes/in/`.
+2. Nano Banana Pro adds the hand, water and so on, leaving the product as it is.
+3. The results are fetched into `scenes/out/` by the same workflow.
+4. `tools/scene_tiles.py` makes `scenes/tiles/<NAME>.jpg`. For the MR8030 feather scene it also pastes the
+   real product pixels back on top.
+
+There are no photos of the outsoles, so the soles in the non-slip scenes are drawn by the AI.
+
 ## Product photos
 
 The cut-outs come from the designed main (BAU) images:

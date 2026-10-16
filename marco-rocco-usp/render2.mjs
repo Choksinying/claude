@@ -26,7 +26,7 @@ const li = args.indexOf('--layout');
 const layouts = li >= 0 ? [args.splice(li, 2)[1]] : ['A', 'B'];
 
 // serve the folder over http: masks and canvas reads of the photos do not work from file:// pages
-const TYPES = { '.html': 'text/html', '.js': 'text/javascript', '.png': 'image/png', '.svg': 'image/svg+xml', '.woff2': 'font/woff2' };
+const TYPES = { '.html': 'text/html', '.js': 'text/javascript', '.png': 'image/png', '.jpg': 'image/jpeg','.svg': 'image/svg+xml', '.woff2': 'font/woff2' };
 const server = http.createServer((req, res) => {
   const file = path.join(here, decodeURIComponent(new URL(req.url, 'http://x').pathname));
   if (!file.startsWith(here)) { res.writeHead(403); return res.end(); }

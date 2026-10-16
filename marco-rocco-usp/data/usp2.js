@@ -11,6 +11,8 @@
 //     height h standing on the product's lowest point, or from y1 to y2),
 //     {arrow: [x1, y1, x2, y2, bend]} (slip-on), {press: [x, y]} (soft), {swap: [x, y]} (2-in-1),
 //     {charms: [[x, y, kind], ...]}; all positions are fractions of the tile.
+// scene: '<NAME>' = a photo scene instead of the zoom (scenes/tiles/<NAME>.jpg, made from the real product photo
+//     with Nano Banana Pro: hand pressing, natural water, sole on a wet floor...); crop: [cx, cy, f] of it.
 // icon: small gold badge in the tile corner (layout A).
 // b: overrides for the round zoom in layout B. A / B: layout options (hero box, B connector anchors).
 
@@ -18,10 +20,10 @@ const drops = { fx: ['drops'], icon: 'droplets' };
 
 window.MODELS2 = [
   { id: 'MR8012', gender: 'unisex', usps: [
-    { label: 'Wave pattern design', view: [.40, .30, .24] },
-    { label: 'Anti-slip sole', view: [.62, .873, .34], floor: .78, icon: 'footprints' },
-    { label: 'Soft & cushioned', view: [.47, .58, .28], fx: [{ press: [.48, .6] }], icon: 'cloud' },
-    { label: 'Waterproof & easy to clean', view: [.22, .20, .28], ...drops },
+    { label: 'Wave pattern design', scene: 'MR8012_1', crop: [.55, .5, .86] },
+    { label: 'Anti-slip sole', scene: 'MR8012_2', crop: [.56, .5, .88], icon: 'footprints' },
+    { label: 'Soft & cushioned', scene: 'MR8012_3', crop: [.6, .46, .82], icon: 'cloud' },
+    { label: 'Waterproof & easy to clean', scene: 'MR8012_4', crop: [.5, .45, .9], icon: 'droplets' },
   ] },
   { id: 'MR8013', gender: 'unisex', usps: [
     { label: 'Boost height 4cm+', view: [.76, .80, .36], bottom: .9, fx: [{ measure: { x: .9, h: .32, text: '4CM+', tagLeft: true } }] },
@@ -57,7 +59,7 @@ window.MODELS2 = [
     { label: '5cm thick sole', view: [.80, .60, .50], fx: [{ measure: { x: .92, y1: .2, y2: .66, text: '5CM', tagLeft: true } }] },
     { label: 'Criss-cross straps', view: [.32, .35, .30] },
     { label: 'Gold logo buckle', view: [.64, .44, .40] },
-    { label: 'Waterproof & easy to clean', view: [.58, .62, .30], ...drops },
+    { label: 'Waterproof & easy to clean', scene: 'MR8022_4', icon: 'droplets' },
   ] },
   { id: 'MR8024', gender: 'female', usps: [
     { label: 'Waterproof boot', view: [.26, .45, .40], ...drops },
@@ -92,10 +94,10 @@ window.MODELS2 = [
     { label: 'Waterproof & easy to clean', view: [.85, .60, .28], ...drops },
   ] },
   { id: 'MR8030', gender: 'female', usps: [
-    { label: 'Durian pattern', view: [.42, .38, .28] },
-    { label: 'Non-slip sole', view: [.62, .84, .36], floor: .8, icon: 'footprints' },
-    { label: 'Soft & cushioned', view: [.54, .76, .34], fx: [{ press: [.5, .55] }], icon: 'cloud' },
-    { label: 'Lightweight', float: true, icon: 'feather' },
+    { label: 'Durian pattern', scene: 'MR8030_1' },
+    { label: 'Non-slip sole', scene: 'MR8030_2b', crop: [.53, .5, .86], icon: 'footprints' },
+    { label: 'Soft & cushioned', scene: 'MR8030_3', crop: [.6, .55, .86], icon: 'cloud' },
+    { label: 'Lightweight', scene: 'MR8030_4b', crop: [.5, .46, .8], icon: 'feather' },
   ] },
   { id: 'MR8031', gender: 'unisex', usps: [
     { label: 'Non-slip & breathable', view: [.18, .55, .36], icon: 'footprints' },
@@ -124,8 +126,8 @@ window.MODELS2 = [
   { id: 'MR8035', gender: 'male', usps: [
     { label: '4cm thick sole', view: [.82, .78, .38], bottom: .9, fx: [{ measure: { x: .92, h: .35, text: '4CM', tagLeft: true } }] },
     { label: 'Modern masculine look', view: [.24, .50, .55], icon: 'shirt' },
-    { label: 'Non-slip sole', view: [.50, .805, .42], floor: .8, icon: 'footprints' },
-    { label: 'Waterproof & easy to clean', view: [.24, .30, .32], ...drops },
+    { label: 'Non-slip sole', scene: 'MR8035_3', crop: [.46, .46, .86], icon: 'footprints' },
+    { label: 'Waterproof & easy to clean', scene: 'MR8035_4', icon: 'droplets' },
   ] },
 ];
 
