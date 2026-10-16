@@ -1,12 +1,13 @@
-# Downloads the restored product photos listed in marco-rocco-usp/repair/out.json (Nano Banana Pro
-# edits that fill in the parts of a shoe the listing badge covered) and commits them, full size,
-# as marco-rocco-usp/repair/out/<MODEL>.png.
+# Downloads the restored product photos listed in marco-rocco-usp/repair/out.json and
+# marco-rocco-usp/repair2/out.json (Nano Banana Pro edits that fill in the parts of a shoe the listing's
+# badge or colour dots covered) and commits them, full size, as .../out/<MODEL>.png.
 name: Fetch repaired product photos
 
 on:
   push:
     paths:
       - marco-rocco-usp/repair/out.json
+      - marco-rocco-usp/repair2/out.json
       - .github/workflows/fetch-repair-images.yml
   workflow_dispatch:
 
@@ -22,19 +23,23 @@ jobs:
         run: |
           python3 - <<'PY'
           import json, os, urllib.request
-          src = "marco-rocco-usp/repair/out.json"
-          out = "marco-rocco-usp/repair/out"
-          os.makedirs(out, exist_ok=True)
-          for name, url in json.load(open(src)).items():
-              req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
-              with open(os.path.join(out, name), "wb") as f:
-                  f.write(urllib.request.urlopen(req, timeout=120).read())
-              print(name, "ok")
+          for d in ("marco-rocco-usp/repair", "marco-rocco-usp/repair2"):
+              src, out = f"{d}/out.json", f"{d}/out"
+              if not os.path.exists(src):
+                  continue
+              os.makedirs(out, exist_ok=True)
+              for name, url in json.load(open(src)).items():
+                  if os.path.exists(os.path.join(out, name)):
+                      continue
+                  req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
+                  with open(os.path.join(out, name), "wb") as f:
+                      f.write(urllib.request.urlopen(req, timeout=120).read())
+                  print(out, name, "ok")
           PY
       - name: Commit images
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898299+github-actions[bot]@users.noreply.github.com"
-          git add marco-rocco-usp/repair/out
+          git add marco-rocco-usp/repair/out marco-rocco-usp/repair2/out
           git diff --cached --quiet || git commit -m "Add restored product photos from Nano Banana Pro"
           git push
