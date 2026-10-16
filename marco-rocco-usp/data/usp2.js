@@ -21,7 +21,7 @@ const drops = { fx: ['drops'], icon: 'droplets' };
 window.MODELS2 = [
   { id: 'MR8012', gender: 'unisex', usps: [
     { label: 'Wave pattern design', scene: 'MR8012_1', crop: [.55, .5, .86] },
-    { label: 'Anti-slip sole', scene: 'MR8012_2', crop: [.56, .5, .88], icon: 'footprints' },
+    { label: 'Lightweight', scene: 'MR8012_5', crop: [.5, .44, .82], icon: 'feather' },
     { label: 'Soft & cushioned', scene: 'MR8012_3', crop: [.6, .46, .82], icon: 'cloud' },
     { label: 'Waterproof & easy to clean', scene: 'MR8012_4', crop: [.5, .45, .9], icon: 'droplets' },
   ] },
@@ -95,7 +95,7 @@ window.MODELS2 = [
   ] },
   { id: 'MR8030', gender: 'female', usps: [
     { label: 'Durian pattern', scene: 'MR8030_1' },
-    { label: 'Non-slip sole', scene: 'MR8030_2b', crop: [.53, .5, .86], icon: 'footprints' },
+    { label: 'Easy to clean', scene: 'MR8030_5', crop: [.56, .44, .84], icon: 'droplets' },
     { label: 'Soft & cushioned', scene: 'MR8030_3', crop: [.6, .55, .86], icon: 'cloud' },
     { label: 'Lightweight', scene: 'MR8030_4b', crop: [.5, .46, .8], icon: 'feather' },
   ] },
@@ -126,7 +126,7 @@ window.MODELS2 = [
   { id: 'MR8035', gender: 'male', usps: [
     { label: '4cm thick sole', view: [.82, .78, .38], bottom: .9, fx: [{ measure: { x: .92, h: .35, text: '4CM', tagLeft: true } }] },
     { label: 'Modern masculine look', view: [.24, .50, .55], icon: 'shirt' },
-    { label: 'Non-slip sole', scene: 'MR8035_3', crop: [.46, .46, .86], icon: 'footprints' },
+    { label: 'Soft & cushioned', scene: 'MR8035_5', crop: [.56, .5, .92], icon: 'cloud' },
     { label: 'Waterproof & easy to clean', scene: 'MR8035_4', icon: 'droplets' },
   ] },
 ];

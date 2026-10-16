@@ -1,9 +1,10 @@
 """Makes the USP scene tiles used by template/usp2.html (`scene: '<NAME>'` in data/usp2.js):
 scenes/out/<NAME>.png (Nano Banana Pro edits of the real-photo inputs in scenes/in/) -> scenes/tiles/<NAME>.jpg, 720px.
 
-For the scenes in PASTE, the real product pixels are put back on top of the AI picture: the cut-out
-scenes/in/<MODEL>_<colour>.png at its place in the input (scenes/in/place.json), aligned to the output by
-phase correlation. So there the product is exactly the photo and only the surroundings (feather, shadow) are AI.
+For the scenes in PASTE, the real product pixels are put back on top of the AI picture: the cut-out at its place
+in the input (scenes/specs.json view for photos2/<MODEL>.png, or scenes/in/place.json for a single-shoe cut-out),
+aligned to the output by phase correlation. So there the product is exactly the photo and only the surroundings
+(feather, shadow) are AI.
 
 usage: python tools/scene_tiles.py
 """
@@ -17,16 +18,22 @@ from PIL import Image
 ROOT = os.path.join(os.path.dirname(__file__), '..')
 SC = os.path.join(ROOT, 'scenes')
 SIZE = 720
-PASTE = {'MR8030_4b': 'MR8030_taupe.png'}
+PASTE = {'MR8030_4b': 'scenes/in/MR8030_taupe.png', 'MR8012_5': 'photos2/MR8012.png'}
 
 place = json.load(open(os.path.join(SC, 'in', 'place.json')))
+for name, s in json.load(open(os.path.join(SC, 'specs.json'))).items():
+    # same placement as tools/scene_inputs.py
+    W, H = Image.open(os.path.join(ROOT, 'photos2', f"{s['model']}.png")).size
+    cx, cy, f = s['view']
+    k = 1024 / (f * W)
+    place[name] = {'x': round(512 - cx * W * k), 'y': round(512 - cy * H * k), 'w': round(W * k), 'h': round(H * k)}
 os.makedirs(os.path.join(SC, 'tiles'), exist_ok=True)
 for f in sorted(os.listdir(os.path.join(SC, 'out'))):
     name = f[:-4]
     out = Image.open(os.path.join(SC, 'out', f)).convert('RGB').resize((1024, 1024), Image.LANCZOS)
     if name in PASTE:
         p = place[name]
-        cut = Image.open(os.path.join(SC, 'in', PASTE[name])).convert('RGBA').resize((p['w'], p['h']), Image.LANCZOS)
+        cut = Image.open(os.path.join(ROOT, PASTE[name])).convert('RGBA').resize((p['w'], p['h']), Image.LANCZOS)
         inp = np.array(Image.open(os.path.join(SC, 'in', f)).convert('L'), np.float32)
         ai = np.array(out.convert('L'), np.float32)
         x0, y0, x1, y1 = p['x'] - 20, p['y'] - 20, p['x'] + p['w'] + 20, p['y'] + p['h'] + 20
