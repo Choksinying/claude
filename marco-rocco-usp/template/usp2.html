@@ -30,8 +30,10 @@
   #canvas > * { position: absolute; }
 
   .word { left: 0; right: 0; text-align: center; font-weight: 800; letter-spacing: .02em; color: rgba(255,255,255,.55); line-height: 1; }
-  .logo { width: 150px; height: 150px; box-shadow: 0 10px 26px rgba(56,10,12,.25); }
-  .logo img { display: block; width: 100%; height: 100%; }
+  /* outline logo, centred at the top: brown for unisex / male, white for female */
+  .logo { left: 50%; transform: translateX(-50%); }
+  .logo img { display: block; width: 100%; height: auto; }
+  .female .logo img { filter: drop-shadow(0 2px 5px rgba(90,30,25,.35)); }
   .code { background: var(--gold); color: var(--maroon-deep); font-weight: 800; border-radius: 999px; letter-spacing: .03em;
     box-shadow: 0 6px 16px rgba(56,10,12,.18), inset 0 1px 0 rgba(255,255,255,.6); white-space: nowrap; }
 
@@ -61,9 +63,9 @@
     box-shadow: 0 3px 8px rgba(56,10,12,.25); white-space: nowrap; }
 
   /* ---------- layout A: hero on podium + maroon band with 4 tiles ---------- */
-  .A .word { top: 168px; font-size: 176px; }
-  .A .logo { left: 40px; top: 36px; }
-  .A .code { right: 40px; top: 60px; font-size: 40px; padding: 10px 34px 8px; }
+  .A .word { top: 262px; font-size: 176px; }
+  .A .logo { top: 22px; width: 220px; }
+  .A .code { left: 50%; transform: translateX(-50%); top: 190px; font-size: 32px; padding: 7px 28px 5px; }
   .A .band { left: 0; right: 0; top: 716px; bottom: 0; background: linear-gradient(170deg, var(--maroon) 0%, var(--maroon-deep) 100%);
     box-shadow: 0 -6px 24px rgba(56,10,12,.18); }
   .A .band::before { content: ''; position: absolute; left: 0; right: 0; top: 0; height: 4px; background: var(--gold); }
@@ -73,8 +75,8 @@
 
   /* ---------- layout B: hero + 4 gold-ringed zoom circles ---------- */
   .B .word { top: 268px; font-size: 108px; }
-  .B .logo { left: 474px; top: 26px; width: 132px; height: 132px; }
-  .B .code { left: 50%; transform: translateX(-50%); top: 172px; font-size: 30px; padding: 7px 26px 5px; }
+  .B .logo { top: 22px; width: 220px; }
+  .B .code { left: 50%; transform: translateX(-50%); top: 190px; font-size: 30px; padding: 7px 26px 5px; }
   .B .ring { width: 252px; height: 252px; border-radius: 50%; background: var(--gold); box-shadow: 0 10px 24px rgba(56,10,12,.25); }
   .B .vis { width: 236px; height: 236px; border-radius: 50%; border: 3px solid #fff; }
   .B .vis .badge { display: none; }
@@ -249,10 +251,10 @@
     const a = m.A || {};
     let h = `<div class="word">${WORD[m.gender]}</div>`;
     h += podium(540, 578, 900, 104, 30);
-    const hb = a.hero || [100, 225, 880, 420];
+    const hb = a.hero || [100, 262, 880, 383];
     const r = hero(m, ...hb);
     h += `<div class="shadow" style="left:${r.x + r.w * .08}px;top:${r.y + r.h - 34}px;width:${r.w * .84}px;height:58px"></div>` + r.html;
-    h += `<div class="logo"><img src="../assets/logo.png" alt="Marco Rocco"></div><div class="code">${m.id}</div><div class="band"></div>`;
+    h += `<div class="logo"><img src="../assets/logo_${m.gender === 'female' ? 'white' : 'brown'}.png" alt="Marco Rocco"></div><div class="code">${m.id}</div><div class="band"></div>`;
     m.usps.forEach((u, i) => {
       const x = 51 + i * 252;
       h += `<div class="vis" style="left:${x}px">${visual(m, u, 222)}</div>`;
@@ -285,7 +287,7 @@
       h += `<div class="vis" style="left:${cx - 118}px;top:${cy - 118}px">${visual(m, v, 236, true)}</div>`;
       h += `<div class="label" style="left:${cx}px;top:${cy + 140}px">${esc(u.label)}</div>`;
     });
-    h += `<div class="logo"><img src="../assets/logo.png" alt="Marco Rocco"></div><div class="code">${m.id}</div>`;
+    h += `<div class="logo"><img src="../assets/logo_${m.gender === 'female' ? 'white' : 'brown'}.png" alt="Marco Rocco"></div><div class="code">${m.id}</div>`;
     return h;
   }
 
