@@ -1,0 +1,316 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Marco Rocco USP v2</title>
+<style>
+  @font-face { font-family: 'Poppins'; font-weight: 600; src: url('../fonts/poppins-latin-600-normal.woff2') format('woff2'); }
+  @font-face { font-family: 'Poppins'; font-weight: 700; src: url('../fonts/poppins-latin-700-normal.woff2') format('woff2'); }
+  @font-face { font-family: 'Poppins'; font-weight: 800; src: url('../fonts/poppins-latin-800-normal.woff2') format('woff2'); }
+
+  :root {
+    --maroon: #531113;
+    --maroon-deep: #380A0C;
+    --gold: linear-gradient(135deg, #F7E2A0 0%, #E2B861 38%, #C4913A 70%, #E9C77A 100%);
+    --gold-solid: #D4A651;
+  }
+  /* backdrop colours follow the Shopee main images: greige = unisex, pink = female, blue = male */
+  .unisex { --bg1: #EFEAE4; --bg2: #C5BBB0; --pod1: #F6F2ED; --pod2: #D6CDC2; --tile1: #FBF9F6; --tile2: #E7E1DA; }
+  .female { --bg1: #F3E2DD; --bg2: #CA9F98; --pod1: #F8EAE6; --pod2: #DDB6AF; --tile1: #FCF7F6; --tile2: #F0DEDA; }
+  .male   { --bg1: #E7EEF5; --bg2: #98AABC; --pod1: #F3F6FA; --pod2: #BFCBD8; --tile1: #F9FBFD; --tile2: #E1E8EF; }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #777; font-family: 'Poppins', sans-serif; padding: 24px; }
+  #toolbar { margin-bottom: 16px; font: 600 15px 'Poppins', sans-serif; color: #fff; }
+  #toolbar select { font: inherit; padding: 4px 8px; margin-right: 12px; }
+
+  #canvas { position: relative; width: 1080px; height: 1080px; overflow: hidden; color: #fff;
+    background: radial-gradient(760px 520px at 50% 42%, rgba(255,255,255,.55), rgba(255,255,255,0) 70%),
+                linear-gradient(180deg, var(--bg1) 0%, var(--bg2) 100%); }
+  #canvas > * { position: absolute; }
+
+  .word { left: 0; right: 0; text-align: center; font-weight: 800; letter-spacing: .02em; color: rgba(255,255,255,.55); line-height: 1; }
+  .logo { width: 150px; height: 150px; box-shadow: 0 10px 26px rgba(56,10,12,.25); }
+  .logo img { display: block; width: 100%; height: 100%; }
+  .code { background: var(--gold); color: var(--maroon-deep); font-weight: 800; border-radius: 999px; letter-spacing: .03em;
+    box-shadow: 0 6px 16px rgba(56,10,12,.18), inset 0 1px 0 rgba(255,255,255,.6); white-space: nowrap; }
+
+  /* podium: elliptical top + side */
+  .podium .side { position: absolute; left: 0; right: 0; border-radius: 0 0 50% 50% / 0 0 100% 100%;
+    background: linear-gradient(90deg, var(--pod2) 0%, var(--pod1) 45%, var(--pod2) 100%); box-shadow: 0 26px 40px rgba(60,30,20,.16); }
+  .podium .top { position: absolute; left: 0; right: 0; top: 0; border-radius: 50%;
+    background: radial-gradient(closest-side, var(--pod1) 60%, color-mix(in srgb, var(--pod1) 70%, var(--pod2)) 100%);
+    box-shadow: inset 0 -2px 0 rgba(255,255,255,.7); }
+  .shadow { border-radius: 50%; background: radial-gradient(closest-side, rgba(40,20,15,.30), rgba(40,20,15,0)); }
+  .hero { filter: drop-shadow(0 18px 18px rgba(40,20,15,.18)) drop-shadow(0 3px 4px rgba(40,20,15,.15)); }
+
+  /* a USP visual (square tile in A, circle in B): a zoom into the real product photo plus overlays */
+  .vis { overflow: hidden; background: linear-gradient(160deg, var(--tile1) 0%, var(--tile2) 100%); }
+  .vis > * { position: absolute; }
+  .vis .drops { background-image: url('../assets/droplets.png'); background-repeat: repeat;
+    -webkit-mask-size: 100% 100%; mask-size: 100% 100%; }
+  .vis svg.fx { left: 0; top: 0; width: 100%; height: 100%; overflow: visible; }
+  .vis .floor { overflow: hidden; -webkit-mask-image: linear-gradient(180deg, #000 70%, rgba(0,0,0,.85));
+    background: repeating-linear-gradient(90deg, rgba(255,255,255,.0) 0 58px, rgba(255,255,255,.55) 58px 60px),
+                linear-gradient(180deg, #8F989E 0%, #AEB6BB 45%, #CBD1D4 100%); box-shadow: inset 0 3px 6px rgba(0,0,0,.18); }
+  .vis .floor > * { position: absolute; }
+  .badge { width: 54px; height: 54px; border-radius: 50%; background: var(--gold); color: var(--maroon-deep);
+    display: grid; place-items: center; box-shadow: 0 4px 10px rgba(56,10,12,.3); border: 2px solid #fff; }
+  .badge svg { width: 30px; height: 30px; }
+  .tag { background: var(--gold); color: var(--maroon-deep); font-weight: 800; border-radius: 999px; padding: 3px 12px 2px; font-size: 20px;
+    box-shadow: 0 3px 8px rgba(56,10,12,.25); white-space: nowrap; }
+
+  /* ---------- layout A: hero on podium + maroon band with 4 tiles ---------- */
+  .A .word { top: 168px; font-size: 176px; }
+  .A .logo { left: 40px; top: 36px; }
+  .A .code { right: 40px; top: 60px; font-size: 40px; padding: 10px 34px 8px; }
+  .A .band { left: 0; right: 0; top: 716px; bottom: 0; background: linear-gradient(170deg, var(--maroon) 0%, var(--maroon-deep) 100%);
+    box-shadow: 0 -6px 24px rgba(56,10,12,.18); }
+  .A .band::before { content: ''; position: absolute; left: 0; right: 0; top: 0; height: 4px; background: var(--gold); }
+  .A .vis { width: 222px; height: 222px; top: 748px; border-radius: 22px; box-shadow: 0 8px 18px rgba(0,0,0,.28); }
+  .A .vis .badge { right: 8px; bottom: 8px; }
+  .A .label { top: 984px; width: 246px; text-align: center; font-weight: 800; font-size: 25px; line-height: 1.15; text-transform: uppercase; color: #fff; }
+
+  /* ---------- layout B: hero + 4 gold-ringed zoom circles ---------- */
+  .B .word { top: 268px; font-size: 108px; }
+  .B .logo { left: 474px; top: 26px; width: 132px; height: 132px; }
+  .B .code { left: 50%; transform: translateX(-50%); top: 172px; font-size: 30px; padding: 7px 26px 5px; }
+  .B .ring { width: 252px; height: 252px; border-radius: 50%; background: var(--gold); box-shadow: 0 10px 24px rgba(56,10,12,.25); }
+  .B .vis { width: 236px; height: 236px; border-radius: 50%; border: 3px solid #fff; }
+  .B .vis .badge { display: none; }
+  .B .label { background: linear-gradient(170deg, var(--maroon) 0%, var(--maroon-deep) 100%); color: #fff; font-weight: 800; font-size: 21px;
+    line-height: 1.15; text-transform: uppercase; text-align: center; border-radius: 999px; padding: 10px 22px 9px; width: max-content; max-width: 290px;
+    transform: translateX(-50%); box-shadow: 0 6px 14px rgba(56,10,12,.25); }
+  .B svg.lines { left: 0; top: 0; width: 1080px; height: 1080px; overflow: visible; }
+</style>
+</head>
+<body>
+<div id="toolbar">Model: <select id="pick"></select> Layout: <select id="lay"><option>A</option><option>B</option></select></div>
+<div id="canvas"></div>
+
+<script src="../assets/icons.js"></script>
+<script src="../data/usp2.js"></script>
+<script>
+  const icon = (name, sw = 2) => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${sw}" stroke-linecap="round" stroke-linejoin="round">${ICONS[name] || ''}</svg>`;
+  const esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;');
+  const WORD = { unisex: 'UNISEX', female: 'FEMALE', male: 'MALE' };
+  // a white feather lying diagonally (lightweight), drawn in a 100x64 box
+  const FEATHER = `<g transform="rotate(-14 50 32)">
+    <path d="M6,40 C24,22 52,14 96,20 C80,32 52,46 14,44 Z" fill="#fff"/>
+    <path d="M6,40 C24,52 56,56 92,30 C70,32 40,40 14,44 Z" fill="#F4EFEA"/>
+    <path d="M30,30 l6,6 M44,24 l7,7 M58,21 l6,7 M72,20 l5,6 M38,48 l5,-5 M54,48 l5,-6 M70,42 l4,-6" stroke="#E3DBD2" stroke-width="1.3"/>
+    <path d="M0,46 C30,40 60,32 96,21" stroke="#D8C7A8" stroke-width="1.8" fill="none" stroke-linecap="round"/></g>`;
+  const sizes = {};
+
+  function loadImg(src) {
+    return new Promise((ok, bad) => { const i = new Image(); i.onload = () => ok(i); i.onerror = bad; i.src = src; });
+  }
+
+  // size of the product photo, plus a small copy of its alpha channel for placing the connector dots
+  async function photoInfo(m) {
+    const i = await loadImg(`../${m.photo}`);
+    const W = i.naturalWidth, H = i.naturalHeight, g = 240 / Math.max(W, H);
+    const cw = Math.round(W * g), ch = Math.round(H * g);
+    const cv = document.createElement('canvas'); cv.width = cw; cv.height = ch;
+    const ctx = cv.getContext('2d'); ctx.drawImage(i, 0, 0, cw, ch);
+    let a = null;
+    try { a = ctx.getImageData(0, 0, cw, ch).data; } catch (e) { /* file:// page: no pixel access */ }
+    return { w: W, h: H, cw, ch, a };
+  }
+
+  // lowest opaque point of the photo (fraction of its height) between x fractions x0 and x1
+  function lowest(info, x0, x1) {
+    if (!info.a) return null;
+    const c0 = Math.max(0, Math.floor(x0 * info.cw)), c1 = Math.min(info.cw - 1, Math.ceil(x1 * info.cw));
+    for (let y = info.ch - 1; y >= 0; y--)
+      for (let x = c0; x <= c1; x++) if (info.a[(y * info.cw + x) * 4 + 3] > 200) return (y + 1) / info.ch;
+    return null;
+  }
+
+  // point on the product (placed in box r) closest to (cx, cy), pulled a little into the product
+  function anchor(info, r, cx, cy) {
+    if (!info.a) return null;
+    let best = null, bd = 1e9, sx = 0, sy = 0, n = 0;
+    for (let y = 0; y < info.ch; y++) for (let x = 0; x < info.cw; x++) {
+      if (info.a[(y * info.cw + x) * 4 + 3] < 200) continue;
+      const px = r.x + (x + .5) / info.cw * r.w, py = r.y + (y + .5) / info.ch * r.h;
+      sx += px; sy += py; n++;
+      const d = Math.hypot(px - cx, py - cy);
+      if (d < bd) { bd = d; best = [px, py]; }
+    }
+    return [best[0] + (sx / n - best[0]) * .14, best[1] + (sy / n - best[1]) * .14];
+  }
+
+  // One USP visual of size S: the product photo zoomed to view [cx, cy, f] (centre as fractions of the
+  // photo, window width as a fraction of the photo width), plus the overlays listed in v.fx.
+  function visual(m, v, S, round = false) {
+    const { w: W, h: H } = sizes[m.id];
+    const src = `../${m.photo}`;
+    let html = '';
+    let box;
+    if (v.float) {
+      // whole product, smaller, floating above a feather (lightweight)
+      const k = Math.min(S * .8 / W, S * .48 / H);
+      const iw = W * k, ih = H * k;
+      box = { l: (S - iw) / 2, t: S * .06, w: iw, h: ih };
+      html += `<svg style="left:${S*.14}px;top:${S*.5}px;width:${S*.72}px;height:${S*.46}px;overflow:visible;filter:drop-shadow(0 3px 4px rgba(60,30,20,.22))" viewBox="0 0 100 64">${FEATHER}</svg>`;
+    } else {
+      const [cx, cy, f] = v.view;
+      const iw = S / f, ih = iw * H / W;
+      box = { l: S / 2 - cx * iw, t: S / 2 - cy * ih, w: iw, h: ih };
+      // stand the product on the floor / put its lowest point at v.bottom (fraction of the tile)
+      const target = v.floor > .05 ? v.floor + .03 : v.bottom;
+      const low = lowest(sizes[m.id], cx - f / 2, cx + f / 2);
+      if (target && low !== null) box.t = target * S - low * ih;
+      v = Object.assign({}, v, { low: low === null ? null : box.t + low * ih });
+    }
+    const pos = `left:${box.l}px;top:${box.t}px;width:${box.w}px;height:${box.h}px`;
+    if (v.floor !== undefined) {
+      // wet tiled floor from v.floor down, with water beads and the product's reflection (non-slip)
+      const fy = v.floor * S;
+      html += `<div class="floor" style="left:0;top:${fy}px;width:${S}px;height:${S - fy}px">
+        <div class="drops" style="inset:0;background-size:${S * .55}px;opacity:.75"></div>
+        ${fy > S * .05 ? `<img src="${src}" style="left:${box.l}px;top:${box.t - fy}px;width:${box.w}px;height:${box.h}px;transform-origin:50% ${fy - box.t}px;transform:scaleY(-1);opacity:.28;filter:blur(1px)">` : ''}</div>`;
+    }
+    html += `<img class="${v.float || v.floor !== undefined ? 'hero' : ''}" src="${src}" style="${pos}">`;
+    const fx = v.fx || [];
+    if (fx.includes('drops')) {
+      html += `<div class="drops" style="${pos};background-size:${S * .95}px;-webkit-mask-image:url(${src});mask-image:url(${src})"></div>`;
+    }
+    let svg = '';
+    for (const e of fx) {
+      if (e.measure) {        // gold height bracket: x, y1, y2 as fractions of the tile
+        // bracket from the product's lowest point up by h (fractions of the tile), or from y1 to y2
+        const { text } = e.measure, x = round ? Math.min(e.measure.x, .8) : e.measure.x;
+        const X = x * S;
+        const Y2 = e.measure.h && v.low ? Math.min(v.low, S * .94) : e.measure.y2 * S;
+        const Y1 = e.measure.h ? Y2 - e.measure.h * S : e.measure.y1 * S;
+        svg += `<g stroke="#C4913A" stroke-width="4" stroke-linecap="round"><line x1="${X}" y1="${Y1}" x2="${X}" y2="${Y2}"/>
+          <line x1="${X-11}" y1="${Y1}" x2="${X+11}" y2="${Y1}"/><line x1="${X-11}" y1="${Y2}" x2="${X+11}" y2="${Y2}"/></g>`;
+        const tx = e.measure.tagLeft ? `right:${S - X + 10}px` : `left:${X + 10}px`;
+        if (text) html += `<div class="tag" style="${tx};top:${(Y1 + Y2) / 2 - 16}px">${esc(text)}</div>`;
+      }
+      if (e.arrow) {          // curved gold arrow (slip-on): from [x1,y1] to [x2,y2], bent by b
+        const [x1, y1, x2, y2, b = .15] = e.arrow.map((n, i) => i < 4 ? n * S : n);
+        const mx = (x1 + x2) / 2 - (y2 - y1) * b, my = (y1 + y2) / 2 + (x2 - x1) * b;
+        const a = Math.atan2(y2 - my, x2 - mx), L = 16;
+        svg += `<g fill="none" stroke="#fff" stroke-width="11" stroke-linecap="round" opacity=".9"><path d="M${x1},${y1} Q${mx},${my} ${x2},${y2}"/></g>
+          <g fill="none" stroke="#C4913A" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"><path d="M${x1},${y1} Q${mx},${my} ${x2},${y2}"/>
+          <path d="M${x2 - L*Math.cos(a-.5)},${y2 - L*Math.sin(a-.5)} L${x2},${y2} L${x2 - L*Math.cos(a+.5)},${y2 - L*Math.sin(a+.5)}"/></g>`;
+      }
+      if (e.press) {          // pressing arrow + compression arcs (soft & cushioned)
+        const [x, y] = e.press.map(n => n * S);
+        svg += `<g fill="none" stroke-linecap="round"><path d="M${x},${y-62} L${x},${y-14}" stroke="#fff" stroke-width="13" opacity=".9"/>
+          <path d="M${x},${y-62} L${x},${y-14} M${x-13},${y-27} L${x},${y-13} L${x+13},${y-27}" stroke="#C4913A" stroke-width="6" stroke-linejoin="round"/>
+          <path d="M${x-30},${y} Q${x},${y+16} ${x+30},${y}" stroke="#fff" stroke-width="5"/>
+          <path d="M${x-44},${y+16} Q${x},${y+36} ${x+44},${y+16}" stroke="#fff" stroke-width="4" opacity=".8"/></g>`;
+      }
+      if (e.swap) {           // two-way arrows (2-in-1 / heel strap flips)
+        const [x, y] = e.swap.map(n => n * S);
+        html += `<div style="left:${x - 34}px;top:${y - 34}px;width:68px;height:68px;border-radius:50%;background:rgba(255,255,255,.85);color:#C4913A;display:grid;place-items:center;box-shadow:0 3px 8px rgba(0,0,0,.18)"><div style="width:44px;height:44px">${icon('repeat-2', 2.6)}</div></div>`;
+      }
+      if (e.charms) {         // decorative shoe charms
+        for (const [x, y, kind] of e.charms) html += charm(kind, x * S, y * S);
+      }
+    }
+    if (svg) html += `<svg class="fx" viewBox="0 0 ${S} ${S}">${svg}</svg>`;
+    if (v.icon) html += `<div class="badge">${icon(v.icon, 2.2)}</div>`;
+    return html;
+  }
+
+  function charm(kind, x, y) {
+    const r = 21;
+    const shapes = {
+      flower: `<g>${[0, 72, 144, 216, 288].map(a => `<circle cx="${Math.cos(a*Math.PI/180)*9}" cy="${Math.sin(a*Math.PI/180)*9}" r="8" fill="#F48FB1"/>`).join('')}<circle r="6" fill="#FFD54F"/></g>`,
+      heart: `<path d="M0,10 C-14,0 -14,-12 -6,-12 C-2,-12 0,-8 0,-6 C0,-8 2,-12 6,-12 C14,-12 14,0 0,10 Z" fill="#EF5350" transform="scale(1.25)"/>`,
+      star: `<path d="M0,-15 L4.4,-5 L15,-4.6 L6.8,2.6 L9.4,13.6 L0,7.6 L-9.4,13.6 L-6.8,2.6 L-15,-4.6 L-4.4,-5 Z" fill="#66BB6A"/>`,
+      smile: `<g><circle r="14" fill="#FFCA28"/><circle cx="-5" cy="-3" r="2" fill="#5D4037"/><circle cx="5" cy="-3" r="2" fill="#5D4037"/><path d="M-6,4 Q0,10 6,4" stroke="#5D4037" stroke-width="2" fill="none"/></g>`,
+      daisy: `<g>${[0, 60, 120, 180, 240, 300].map(a => `<ellipse cx="${Math.cos(a*Math.PI/180)*9}" cy="${Math.sin(a*Math.PI/180)*9}" rx="7" ry="5" transform="rotate(${a} ${Math.cos(a*Math.PI/180)*9} ${Math.sin(a*Math.PI/180)*9})" fill="#fff"/>`).join('')}<circle r="6" fill="#FFB300"/></g>`,
+      ball: `<g><circle r="14" fill="#FF7043"/><path d="M-14,0 H14 M0,-14 V14 M-10,-10 Q0,0 -10,10 M10,-10 Q0,0 10,10" stroke="#4E342E" stroke-width="1.6" fill="none"/></g>`,
+    };
+    return `<svg style="left:${x - r}px;top:${y - r}px;width:${2*r}px;height:${2*r}px;overflow:visible;filter:drop-shadow(0 2px 2px rgba(0,0,0,.35))" viewBox="-21 -21 42 42">
+      <circle r="18" fill="#fff" opacity=".0"/>${shapes[kind]}</svg>`;
+  }
+
+  // place the hero photo so it fits box [l, t, w, h], bottom-aligned
+  function hero(m, l, t, w, h) {
+    const { w: W, h: H } = sizes[m.id];
+    const k = Math.min(w / W, h / H), iw = W * k, ih = H * k;
+    const x = l + (w - iw) / 2, y = t + h - ih;
+    return { html: `<img class="hero" src="../${m.photo}" style="left:${x}px;top:${y}px;width:${iw}px;height:${ih}px">`, x, y, w: iw, h: ih };
+  }
+
+  function podium(cx, top, w, topH, sideH) {
+    return `<div class="podium" style="left:${cx - w / 2}px;top:${top}px;width:${w}px;height:${topH + sideH}px">
+      <div class="side" style="top:${topH / 2}px;height:${sideH + topH / 2}px"></div><div class="top" style="height:${topH}px"></div></div>`;
+  }
+
+  function layoutA(m) {
+    const a = m.A || {};
+    let h = `<div class="word">${WORD[m.gender]}</div>`;
+    h += podium(540, 578, 900, 104, 30);
+    const hb = a.hero || [100, 225, 880, 420];
+    const r = hero(m, ...hb);
+    h += `<div class="shadow" style="left:${r.x + r.w * .08}px;top:${r.y + r.h - 34}px;width:${r.w * .84}px;height:58px"></div>` + r.html;
+    h += `<div class="logo"><img src="../assets/logo.png" alt="Marco Rocco"></div><div class="code">${m.id}</div><div class="band"></div>`;
+    m.usps.forEach((u, i) => {
+      const x = 51 + i * 252;
+      h += `<div class="vis" style="left:${x}px">${visual(m, u, 222)}</div>`;
+      h += `<div class="label" style="left:${x - 12}px">${esc(u.label)}</div>`;
+    });
+    return h;
+  }
+
+  function layoutB(m) {
+    const b = m.B || {};
+    let h = `<div class="word">${WORD[m.gender]}</div>`;
+    const hb = b.hero || [300, 360, 480, 455];
+    const r = hero(m, ...hb);
+    h += podium(540, r.y + r.h - 54, Math.min(Math.max(r.w * .95, 480), 760), 100, 46);
+    h += `<div class="shadow" style="left:${r.x + r.w * .1}px;top:${r.y + r.h - 30}px;width:${r.w * .8}px;height:50px"></div>` + r.html;
+    const C = [[170, 345], [910, 345], [170, 765], [910, 765]];
+    // connector lines: from each circle towards an anchor on the product (fractions of the hero box)
+    let lines = '';
+    C.forEach(([cx, cy], i) => {
+      const [ax, ay] = b.anchors ? [r.x + b.anchors[i][0] * r.w, r.y + b.anchors[i][1] * r.h]
+        : anchor(sizes[m.id], r, cx, cy) || [r.x + r.w * (i % 2 ? .78 : .22), r.y + r.h * (i < 2 ? .3 : .78)];
+      const d = Math.hypot(ax - cx, ay - cy), sx = cx + (ax - cx) / d * 126, sy = cy + (ay - cy) / d * 126;
+      lines += `<line x1="${sx}" y1="${sy}" x2="${ax}" y2="${ay}" stroke="#C99B47" stroke-width="2.5"/><circle cx="${ax}" cy="${ay}" r="6" fill="#fff" stroke="#C99B47" stroke-width="3"/>`;
+    });
+    h += `<svg class="lines">${lines}</svg>`;
+    m.usps.forEach((u, i) => {
+      const [cx, cy] = C[i];
+      const v = Object.assign({}, u, u.b || {});
+      h += `<div class="ring" style="left:${cx - 126}px;top:${cy - 126}px"></div>`;
+      h += `<div class="vis" style="left:${cx - 118}px;top:${cy - 118}px">${visual(m, v, 236, true)}</div>`;
+      h += `<div class="label" style="left:${cx}px;top:${cy + 140}px">${esc(u.label)}</div>`;
+    });
+    h += `<div class="logo"><img src="../assets/logo.png" alt="Marco Rocco"></div><div class="code">${m.id}</div>`;
+    return h;
+  }
+
+  window.render = async function (id, lay) {
+    const m = MODELS2.find(x => x.id === id) || MODELS2[0];
+    if (!sizes[m.id]) sizes[m.id] = await photoInfo(m);
+    const c = document.getElementById('canvas');
+    c.className = `${lay} ${m.gender}`;
+    c.innerHTML = lay === 'A' ? layoutA(m) : layoutB(m);
+    await document.fonts.ready;
+    // layout A labels: at most two lines
+    c.querySelectorAll('.A .label').forEach(el => {
+      for (let size = 25; el.scrollHeight > 62 && size > 18; size--) el.style.fontSize = size - 1 + 'px';
+    });
+    await Promise.all([...c.querySelectorAll('img')].map(i => i.complete ? 0 : new Promise(ok => { i.onload = i.onerror = ok; })));
+    return m.id;
+  };
+
+  const pick = document.getElementById('pick'), lay = document.getElementById('lay');
+  pick.innerHTML = MODELS2.map(m => `<option>${m.id}</option>`).join('');
+  const q = new URLSearchParams(location.search);
+  pick.value = q.get('model') || MODELS2[0].id; lay.value = q.get('layout') || 'A';
+  const go = () => { history.replaceState(null, '', `?model=${pick.value}&layout=${lay.value}`); render(pick.value, lay.value); };
+  pick.onchange = lay.onchange = go;
+  window.ready = render(pick.value, lay.value);
+</script>
+</body>
+</html>

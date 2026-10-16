@@ -1,48 +1,58 @@
 # Marco Rocco – USP images (listing image #2)
 
-1080×1080 USP images for the Shopee / TikTok Shop listings, one per model, built from the
-"Marco Rocco USP" sheet. Finished images are in `output/` (`MR8012_USP.png` … `MR8035_USP.png`).
+1080×1080 USP images for the Shopee / TikTok Shop listings, built from the "Marco Rocco USP" sheet.
 
-Layout (same for every model):
+**Current images: `final/`**. There are two per model, named by SKU:
 
-- **Header:** Marco Rocco logo, model code, headline USP and a one-line subtitle.
-- **Hero:**
-  - product photo on the warm backdrop of the model's main image (greige for unisex, pink for female, blue for male);
-  - three model-specific USP cards;
-  - a round gold sticker;
-  - a "Unisex · Multiple colours" pill.
-- **Bottom band:** the six benefits every model shares: Durable, EVA Material, Easy to Clean, Lightweight,
-  Soft & Cushioned, Waterproof. MR8030 shows Non-Slip Sole instead, since its sheet has no waterproof claim.
+- `MR80xx_USP.jpg`: layout A, the products on a podium with four USP tiles in a maroon band.
+- `MR80xx_USP_2.jpg`: layout B, the products on a podium with four gold-ringed zoom circles.
+
+Every product picture in them is the real product photo, so patterns and shapes are exactly the
+product's. Only the spots that the listing's own graphics had covered were restored with Nano Banana Pro
+(see below). The logo is the brand's logo file (`assets/logo.png`). The backdrop colour follows the Shopee
+main images: greige for unisex, pink for female, blue for male.
 
 ## Edit and re-render
 
 | What | Where |
 |---|---|
-| Wording, icons, sticker text, background colours | `data/models.js` |
-| Layout, fonts, brand colours | `template/usp.html` (colours are the CSS variables at the top) |
-| Product photos | `photos/<MODEL>.png` (transparent cut-out) |
+| The 4 USPs per model, what each tile/circle zooms into, gender | `data/usp2.js` |
+| Layouts, colours, fonts | `template/usp2.html` (gender colours are the `.unisex` / `.female` / `.male` rules) |
+| Product photos (transparent cut-outs) | `photos2/<MODEL>.png` |
 
 ```bash
-npm i playwright@1.56.1     # once; or use a global playwright
-node render.mjs             # all models  -> output/<MODEL>_USP.png
-node render.mjs MR8013      # just one
+npm i playwright@1.56.1      # once; or use a global playwright
+node render2.mjs             # all models, both layouts -> output2/*.png
+node render2.mjs MR8030      # one model
 ```
 
-Open `template/usp.html?model=MR8013` in a browser to preview; the dropdown switches models.
+Then convert `output2/*.png` to JPG for `final/`.
+
+Each USP visual is a zoom into the real photo (`view: [cx, cy, f]`) with optional overlays:
+
+- water beads (`assets/droplets.png`, drawn by `tools/droplets.py`);
+- a height bracket;
+- a wet tiled floor with reflection (non-slip);
+- a slip-on arrow;
+- a press arrow (soft);
+- charms;
+- a floating product above a feather (lightweight).
 
 ## Product photos
 
-`tools/cutout.py` makes the transparent cut-outs:
+The cut-outs come from the designed main (BAU) images:
 
-```bash
-pip install "rembg[cpu]" opencv-python-headless scipy pillow
-python tools/cutout.py plain  path/to/white-background-photo.jpg MR8013   # plain product photo (best)
-python tools/cutout.py bau    path/to/MR8013_BAU.jpg            MR8013   # designed main image
-```
+1. `tools/cutout.py` produced `photos/`.
+2. Where the listing's HEIGHT BOOST badge or COLOUR dots had covered part of a shoe, Nano Banana Pro
+   restored the picture (`repair/`, `repair2/`, fetched by `.github/workflows/fetch-repair-images.yml`).
+3. `tools/merge_repair.py` and `tools/fix_smears.py` take only those spots from the restored picture.
+   Every other pixel stays the original photo.
+4. `tools/solidify.py` makes the inside of each shoe fully opaque.
 
-The current cut-outs come from the designed main (BAU) images. The script drops their logo, the big
-UNISEX/FEMALE/MALE word, the colour dots and the HEIGHT BOOST badge. Where that badge covered part of a
-shoe, the spot is recorded in `photos/meta.js` and the template places the gold sticker over it.
-Plain white-background photos give the cleanest result: run `plain` on them and re-render.
+## Earlier versions
+
+- `output/`: first template version.
+- `nano-banana/`: fully AI-generated version. It was replaced because the AI redrew the products and logo
+  inaccurately.
 
 Fonts: Poppins (SIL Open Font License, `fonts/OFL-Poppins.txt`). Icons: Lucide (ISC licence).
