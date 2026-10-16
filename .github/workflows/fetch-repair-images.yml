@@ -1,6 +1,7 @@
-# Downloads the restored product photos listed in marco-rocco-usp/repair/out.json and
-# marco-rocco-usp/repair2/out.json (Nano Banana Pro edits that fill in the parts of a shoe the listing's
-# badge or colour dots covered) and commits them, full size, as .../out/<MODEL>.png.
+# Downloads the Nano Banana Pro images listed in marco-rocco-usp/{repair,repair2,scenes}/out.json and
+# commits them, full size, as .../out/<NAME>.png: the restored product photos (repair, repair2: parts of a
+# shoe the listing's badge or colour dots covered) and the USP scene tiles (scenes: hand pressing, natural
+# water, sole on a wet floor...).
 name: Fetch repaired product photos
 
 on:
@@ -8,6 +9,7 @@ on:
     paths:
       - marco-rocco-usp/repair/out.json
       - marco-rocco-usp/repair2/out.json
+      - marco-rocco-usp/scenes/out.json
       - .github/workflows/fetch-repair-images.yml
   workflow_dispatch:
 
@@ -23,7 +25,7 @@ jobs:
         run: |
           python3 - <<'PY'
           import json, os, urllib.request
-          for d in ("marco-rocco-usp/repair", "marco-rocco-usp/repair2"):
+          for d in ("marco-rocco-usp/repair", "marco-rocco-usp/repair2", "marco-rocco-usp/scenes"):
               src, out = f"{d}/out.json", f"{d}/out"
               if not os.path.exists(src):
                   continue
@@ -40,6 +42,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898299+github-actions[bot]@users.noreply.github.com"
-          git add marco-rocco-usp/repair/out marco-rocco-usp/repair2/out
-          git diff --cached --quiet || git commit -m "Add restored product photos from Nano Banana Pro"
+          mkdir -p marco-rocco-usp/scenes/out
+          git add marco-rocco-usp/repair/out marco-rocco-usp/repair2/out marco-rocco-usp/scenes/out
+          git diff --cached --quiet || git commit -m "Add Nano Banana Pro images"
           git push
